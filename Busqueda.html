@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Ciudades - Urban Odyssey</title>
+    <style>
+        body {
+            background-color: #6ef0a0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+            color: #4b4b4b;
+            padding-top: 40px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px; /* Más ancho */
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4b4b4b;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-container {
+            text-align: left;
+            width: 100%;
+            max-height: 300px; /* Más espacio para los resultados */
+            overflow-y: auto;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .city-item {
+            padding: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .city-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .info-block {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px; /* Igual que el contenedor */
+            text-align: center;
+            display: none;
+        }
+
+        .info-block h3 {
+            color: #4b4b4b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Buscar Ciudades de Colombia</h2>
+        <input type="text" id="searchInput" placeholder="Escribe el nombre de una ciudad" oninput="buscarCiudad()">
+        <div class="result-container" id="resultContainer"></div>
+    </div>
+
+    <div class="info-block" id="infoBlock">
+        <h3>Información de la Ciudad Seleccionada</h3>
+        <p id="selectedCity"></p>
+    </div>
+
+    <script>
+        // Lista de ciudades de Colombia para simular la base de datos
+        const ciudadesColombia = [
+            "Bogotá", "Medellín", "Cali", "Barranquilla", "Cartagena", "Bucaramanga", 
+            "Pereira", "Santa Marta", "Manizales", "Cúcuta", "Ibagué", "Villavicencio",
+            "Pasto", "Montería", "Neiva", "Armenia", "Popayán", "Sincelejo", "Tunja", "Florencia"
+        ];
+
+        function buscarCiudad() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const resultContainer = document.getElementById('resultContainer');
+            
+            // Limpiar resultados anteriores
+            resultContainer.innerHTML = '';
+
+            // Filtrar ciudades que coincidan con el texto ingresado
+            const resultados = ciudadesColombia.filter(ciudad =>
+                ciudad.toLowerCase().includes(searchInput)
+            );
+
+            // Mostrar resultados
+            if (resultados.length === 0) {
+                resultContainer.innerHTML = '<p>No se encontraron coincidencias</p>';
+            } else {
+                resultados.forEach(ciudad => {
+                    const cityItem = document.createElement('div');
+                    cityItem.className = 'city-item';
+                    cityItem.textContent = ciudad;
+
+                    // Añadir evento de clic para mostrar información de la ciudad seleccionada
+                    cityItem.onclick = () => mostrarInfoCiudad(ciudad);
+
+                    resultContainer.appendChild(cityItem);
+                });
+            }
+        }
+
+        function mostrarInfoCiudad(ciudad) {
+            const infoBlock = document.getElementById('infoBlock');
+            const selectedCity = document.getElementById('selectedCity');
+            
+            // Mostrar el bloque de información con el nombre de la ciudad seleccionada
+            selectedCity.textContent = `Ciudad Seleccionada: ${ciudad}`;
+            infoBlock.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
